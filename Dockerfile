@@ -93,6 +93,9 @@ EXPOSE 8117
 RUN mkdir /data
 RUN mkdir /conf
 
+ENV NETWORK mainnet
+ENV NGINX_READ_TIMEOUT 60
+
 COPY --from=goBuiler /ckb-rosetta-sdk/server/server /usr/local/bin/ckb-rosetta-sdk
 COPY --from=builder /ckb-indexer/target/release/ckb-indexer /usr/local/bin/ckb-indexer
 COPY --from=builder /ckb-rosetta-docker-config/nginx.conf /conf/nginx.conf
