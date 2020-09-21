@@ -19,6 +19,15 @@ docker pull nervos/ckb-rosetta-docker
 docker run --name ckb-rosetta-docker -d -p 8117:8117 -v "$PWD/data":/data nervos/ckb-rosetta-docker
 ```
 
+#### Custom nginx read time out and ckb chain
+```
+docker pull nervos/ckb-rosetta-docker
+docker run --name ckb-rosetta-docker -d -e NGINX_READ_TIMEOUT=2000 -e NETWORK=mainnet -p 8117:8117 -v "$PWD/data":/data nervos/ckb-rosetta-docker
+```
+`NGINX_READ_TIMEOUT` can custom `proxy_read_timeout`
+
+`NETWORK` can set ckb chain, available value is `mainnet` or `testnet`
+
 ### CKB node RPC
 
 ```
