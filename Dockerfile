@@ -2,7 +2,8 @@ FROM golang:1.14.2-buster as goBuiler
 LABEL maintainer="Xueping Yang <xueping.yang@gmail.com>"
 RUN git clone https://github.com/nervosnetwork/ckb-rosetta-sdk.git /ckb-rosetta-sdk
 RUN cd /ckb-rosetta-sdk; \
-    git checkout v0.2.0; \
+    git fetch --tags; \
+    git checkout tags/v0.3.3 -b v0.3.3; \
     go mod download; \
     cd server; \
     go build .
