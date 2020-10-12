@@ -28,6 +28,8 @@ docker run --name ckb-rosetta-docker -d -e NGINX_READ_TIMEOUT=2000 -e NETWORK=ma
 
 `NETWORK` can set ckb chain, available value is `mainnet` or `testnet`
 
+docker run --name ckb-rosetta-docker -d -e NGINX_READ_TIMEOUT=2000 -e NETWORK=testnet  -p 8117:8117 -v "$PWD/data":/data nervos/ckb-rosetta-docker
+
 ### CKB node RPC
 
 ```
