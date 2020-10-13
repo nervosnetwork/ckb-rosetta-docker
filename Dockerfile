@@ -1,12 +1,10 @@
 FROM golang:1.14.2-buster as goBuiler
 LABEL maintainer="Xueping Yang <xueping.yang@gmail.com>"
-ARG CKB_ROSETTA_SDK_VERSION=v0.3.4
-ENV ENV_CKB_ROSETTA_SDK_VERSION=$CKB_ROSETTA_SDK_VERSION
 
 RUN git clone https://github.com/nervosnetwork/ckb-rosetta-sdk.git /ckb-rosetta-sdk
 RUN cd /ckb-rosetta-sdk; \
     git fetch --tags; \
-    git checkout tags/$ENV_CKB_ROSETTA_SDK_VERSION -b $ENV_CKB_ROSETTA_SDK_VERSION; \
+    git checkout tags/v0.3.5 -b v0.3.5; \
     go mod download; \
     cd server; \
     go build .
@@ -53,7 +51,8 @@ RUN set -eux; \
 
 RUN git clone https://github.com/quake/ckb-indexer.git /ckb-indexer
 RUN cd /ckb-indexer; \
-    git checkout v0.1.6; \
+    git fetch --tags; \
+    git checkout tags/v0.1.7 -b v0.1.7; \
     cargo build --release
 RUN git clone https://github.com/nervosnetwork/ckb-rosetta-docker-config.git /ckb-rosetta-docker-config
 
@@ -67,9 +66,9 @@ RUN apt-get update; \
         software-properties-common
 
 ## CKB node
-RUN wget https://github.com/nervosnetwork/ckb/releases/download/v0.33.0/ckb_v0.33.0_x86_64-unknown-linux-gnu.tar.gz -O /tmp/ckb_v0.33.0_x86_64-unknown-linux-gnu.tar.gz
-RUN cd /tmp && tar xzf ckb_v0.33.0_x86_64-unknown-linux-gnu.tar.gz
-RUN cp /tmp/ckb_v0.33.0_x86_64-unknown-linux-gnu/ckb /bin/ckb
+RUN wget https://github.com/nervosnetwork/ckb/releases/download/v0.36.0/ckb_v0.36.0_x86_64-unknown-linux-gnu.tar.gz -O /tmp/ckb_v0.36.0_x86_64-unknown-linux-gnu.tar.gz
+RUN cd /tmp && tar xzf ckb_v0.36.0_x86_64-unknown-linux-gnu.tar.gz
+RUN cp /tmp/ckb_v0.36.0_x86_64-unknown-linux-gnu/ckb /bin/ckb
 
 ## goreman
 RUN mkdir /tmp/goreman && wget https://github.com/mattn/goreman/releases/download/v0.3.4/goreman_linux_amd64.zip -O /tmp/goreman/goreman_linux_amd64.zip
@@ -81,7 +80,7 @@ RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.
 RUN dpkg -i /tmp/dumb-init.deb
 
 ## clean
-RUN rm -rf /tmp/ckb_v0.33.0_x86_64-unknown-linux-gnu/ckb /tmp/goreman /tmp/dumb-init.deb
+RUN rm -rf /tmp/ckb_v0.36.0_x86_64-unknown-linux-gnu/ckb /tmp/goreman /tmp/dumb-init.deb
 RUN apt-get -y remove wget unzip software-properties-common && apt-get -y autoremove && apt-get clean
 
 ## CKB network port
